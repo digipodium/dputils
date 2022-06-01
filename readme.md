@@ -1,0 +1,4 @@
+- AIM: Make open source library
+- open source library for digipodium and make different packages with classes
+- Location: /Users/akulsingh/miniconda3
+- Bash command: chsh -s /bin/bash
