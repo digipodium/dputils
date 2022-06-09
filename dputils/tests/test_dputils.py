@@ -14,6 +14,7 @@ def test_read_pdf():
     assert type(get_data(r"/Users/akulsingh/Desktop/Internship/sample.pdf")) == str
 """
 def test_save_data():
-    assert save_data("sample.pdf", "Hello I am inserting this new text") is True                          
+    assert save_data("sample.pdf", "Hello I am inserting this new text") is True          
+    assert save_data("/Users/akulsingh/Desktop/Internship/sample.docx", "TODAY'S DATA") is True                
 def test_get_webpage():
     assert get_webpage_data("ht://pypi.org/project/fake-useragent/") is None

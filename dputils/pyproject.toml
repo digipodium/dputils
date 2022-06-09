@@ -2,10 +2,7 @@
 name = "dputils"
 version = "0.1.1"
 description = "This library is utility library from digipodium"
-authors = [{
-    name = "Akul Singh",
-    email = "akulsingh0708@gmail.com",
-}]
+authors = ["AkulS1008 <akulsingh0708@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -15,7 +12,6 @@ fpdf2 = "^2.5.4"
 bs4 = "^0.0.1"
 fake-useragent = "^0.1.11"
 requests = "^2.27.1"
-PyPDF2 = "^2.1.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
@@ -23,10 +19,4 @@ pytest = "^5.2"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
-readme = "README.rst"
 
-[project.urls]
-homepage = "https://github.com/digipodium/dputils"
-repository = "https://github.com/digipodium/dputils"
-
-test = ["pytest"]

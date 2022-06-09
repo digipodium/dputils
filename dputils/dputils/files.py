@@ -6,11 +6,18 @@ from xmlrpc.client import Boolean
 import docx2txt
 from pdfminer.high_level import extract_text
 from fpdf import FPDF
+from docx import Document
 
 #GET DATA
 def get_data(path : str, output = 's', encoding = 'utf-8') -> str:
     """
-    This is a funtion to obtain data from txt, doc and pdf files. UTF-8 is preferred.
+    Obtains data from files of any extension (supports text files, binary files, pdf, doc for now; more coming!)
+    Returns a string or binary data depending on the output arg
+    
+    Args:
+    path (str): path of the file to be read ex:"sample.txt" or "sample.pdf", or "sample.doc", etc.
+    output (str): 's' is passed for the data to be stored as string; 'b' to obtain binary data
+    encoding (str): existing encoding of file
     """
     if output == 's':
         if not os.path.exists(path):
@@ -77,6 +84,12 @@ def __binary_read__(path : str):
 
 def save_data(path : str, data : str) -> bool:
     """
+    Writes and saves data into a file of any extension
+    Returns True if file is successfully accessed and modified. Otherwise False.
+    
+    Args:
+    path (str): path of the file to be modified ex:"sample.txt" or "sample.pdf", or "sample.doc", etc.
+    data (str): data to be stored and saved into the given file
     """
     status = False
     file_type = __file_type__(path)
@@ -84,6 +97,8 @@ def save_data(path : str, data : str) -> bool:
         status = __txt_file_write__(path, data)
     if file_type == 2:
         status =  __pdf_write__(path, data)
+    if file_type == 3:
+        status =  __doc_write__(path, data)
     return status
 
 def __txt_file_write__(path : str, data : str) -> bool:
@@ -106,3 +121,17 @@ def __pdf_write__(path : str, data : str) -> bool:
     except Exception as e:
         print("Pdf file could not be modified")
         raise e
+
+def __doc_write__(path : str, data : str) -> bool:
+    try:
+        document = Document(path)
+        paragraph = document.paragraphs[len(document.paragraphs) - 1]
+        paragraph.text = data
+        document.save(path)
+        return True
+    except Exception as e:
+        print("Doc/Docx file could not be modified")
+        raise e
+
+#how to generate github pages
+#Publish poetry
