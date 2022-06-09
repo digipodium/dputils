@@ -8,7 +8,6 @@ from pdfminer.high_level import extract_text
 from fpdf import FPDF
 from docx import Document
 
-#GET DATA
 def get_data(path : str, output = 's', encoding = 'utf-8') -> str:
     """
     Obtains data from files of any extension (supports text files, binary files, pdf, doc for now; more coming!)
@@ -134,4 +133,3 @@ def __doc_write__(path : str, data : str) -> bool:
         raise e
 
 #how to generate github pages
-#Publish poetry
