@@ -70,9 +70,9 @@ def extract_one(soup : BeautifulSoup, **selectors) -> dict:
     data = {}
     try:
         for key,info in selectors.items():
-            tag = info.get('tag', default = 'div')
-            attrs = info.get('attrs', default = None) #defaults as 2nd param
-            output = info.get('output', default = 'text')
+            tag = info.get('tag', 'div')
+            attrs = info.get('attrs', None) #defaults as 2nd param
+            output = info.get('output', 'text')
             if output == 'text':
                 data[key] = soup.find(tag, attrs = attrs).text.strip()
             elif output == 'href':
