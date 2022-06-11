@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dputils"
-version = "0.1.1"
+version = "0.1.3"
 description = "This library is utility library from digipodium"
 authors = ["AkulS1008 <akulsingh0708@gmail.com>"]
 

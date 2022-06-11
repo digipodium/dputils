@@ -34,13 +34,10 @@ def get_webpage_data(url, headers = None, cookies = None) -> BeautifulSoup:
     try:
         page = requests.get(url, headers = headers, cookies = cookies)
         if page.status_code == 404:
-            print("Page not found")
             return None
         elif page.status_code == 503:
-            print("Page unavailable")
             return None
         elif page.status_code == 200:
-            print("Page found")
             soup = BeautifulSoup(page.content, 'html.parser')
             return soup
     except Exception as e:
