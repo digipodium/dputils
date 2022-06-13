@@ -1,11 +1,14 @@
 [tool.poetry]
 name = "dputils"
-version = "0.1.6"
+version = "0.1.7"
 description = "This library is utility library from digipodium"
 authors = ["AkulS1008 <akulsingh0708@gmail.com>"]
+maintainers = ["Zaid Kamil <xaidmetamorphos@gmail.com>"]
+readme = "readme.md"
+license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.8"
 docx2txt = "^0.8"
 "pdfminer.six" = "^20220524"
 fpdf2 = "^2.5.4"
@@ -20,3 +23,13 @@ pytest = "^5.2"
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
+homepage = "https://github.com/digipodium/dputils"
+repository = "https://github.com/digipodium/dputils"
+documentation = "https://github.com/digipodium/dputils"
+
+classifiers = [
+    "Topic :: Software Development :: Utility",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+keywords = ["file-handling", "web-scraping", "utility", "dputils", "digipodium"]
