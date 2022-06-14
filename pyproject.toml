@@ -19,6 +19,7 @@ fpdf2 = "^2.5.4"
 bs4 = "^0.0.1"
 fake-useragent = "^0.1.11"
 requests = "^2.27.1"
+python-docx = "^0.8.11"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
