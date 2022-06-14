@@ -56,6 +56,23 @@ Functions from dputils.scrape:
         ```
     - Output will be of type dict
 
+3. extract_many:
+    - To import, use statement: 
+        ```python3
+        from dputils.scrape import extract_many
+        ```
+    - extract_one can be used to extract several data items (as dict) stored in a list from data in a given BeautifulSoup object
+    - sample call: 
+        ```python3
+        soup = get_webpage_data("https://www.amazon.com/s?k=headphones&crid=1DUUWW6PEVAJ1&sprefix=headphones%2Caps%2C161&ref=nb_sb_noss_1")
+        
+        extract_many(soup, 
+                target = {'tag' : 'div', 'attrs' : {'class':'s-main-slot s-result-list s-search-results sg-row'}},
+                items =  {'tag' : 'div', 'attrs' : {'class':'s-result-item'}},
+                title =  {'tag' : 'h2', 'attrs' : {'class':'a-size-mini a-spacing-none a-color-base s-line-clamp-2'}})
+        ```
+    - Output will be of type list
+
 These functions can used on python versions 3.8 or greater.
 
 References for more help: https://github.com/digipodium/dputils
