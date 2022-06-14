@@ -12,7 +12,7 @@ def __clean_url__(url):
         url = url.split('?')[0]
     return url
 
-def get_webpage_data(url, headers = None, cookies = None, clean = True) -> BeautifulSoup:
+def get_webpage_data(url, headers = None, cookies = None, clean = False) -> BeautifulSoup:
     """
     Obtains data from any website
     Returns data as a BeautifulSoup object

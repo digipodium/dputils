@@ -114,7 +114,7 @@ def __pdf_write__(path : str, data : str) -> bool:
         pdf = FPDF()
         pdf.add_page()
         pdf.set_font('helvetica', size =12)
-        pdf.cell(txt=data)
+        pdf.cell(w = 100, txt = data)
         pdf.output(path)
         return True
     except Exception as e:
