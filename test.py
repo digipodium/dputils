@@ -4,9 +4,9 @@ from dputils.scrape import get_webpage_data,extract_one,extract_many
 def test_read_file():
     assert len(get_data(r"/Users/akulsingh/Desktop/Internship/pyproject.toml")) > 0
     assert type(get_data(r"/Users/akulsingh/Desktop/Internship/pyproject.toml")) == str
-def test_read_doc():
-    assert len(get_data(r"/Users/akulsingh/Desktop/Internship/examples/example.docx")) > 0
-    assert type(get_data(r"/Users/akulsingh/Desktop/Internship/examples/example.docx")) == str
+# test_read_doc():
+    #assert len(get_data(r"/Users/akulsingh/Desktop/Internship/examples/example.docx")) > 0
+    #assert type(get_data(r"/Users/akulsingh/Desktop/Internship/examples/example.docx")) == str
 def test_read_pdf():
     assert len(get_data(r"/Users/akulsingh/Desktop/Internship/examples/sample.pdf")) > 0
     assert type(get_data(r"/Users/akulsingh/Desktop/Internship/examples/sample.pdf")) == str

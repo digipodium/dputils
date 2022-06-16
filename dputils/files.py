@@ -90,11 +90,11 @@ def save_data(path : str, data : str) -> bool:
     """
     status = False
     file_type = __file_type__(path)
-    if file_type == 1:
+    if file_type == 3:
         status = __txt_file_write__(path, data)
     if file_type == 2:
         status =  __pdf_write__(path, data)
-    if file_type == 3:
+    if file_type == 1:
         status =  __doc_write__(path, data)
     return status
 
@@ -122,7 +122,7 @@ def __pdf_write__(path : str, data : str) -> bool:
 def __doc_write__(path : str, data : str) -> bool:
     try:
         paras = data.split('\n')
-        document = Document(path)
+        document = Document()
         for para in paras:
             document.add_paragraph(para)
         document.save(path)
