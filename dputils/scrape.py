@@ -96,24 +96,25 @@ def extract_many(soup : BeautifulSoup, **selectors) -> list:
         info must be written in following manner:
             first key is 'tag' with value as tag from where data is obtained
             second key is 'attrs' with value as dict containing id or class information
+            third key is 'output': which specifies type of data recieved: text, href or src
         Valid Examples:
-            title =  {'tag' : 'h2', 'attrs' : {'class':'a-size-mini a-spacing-none a-color-base s-line-clamp-2'}}
-            priceDict = {'tag' : 'span', 'attrs' : {'class' : 'a-price-whole'}}
+            title =  {'tag' : 'h2', 'attrs' : {'class':'a-size-mini a-spacing-none a-color-base s-line-clamp-2'}, output = 'text'}
+            priceDict = {'tag' : 'span', 'attrs' : {'class' : 'a-price-whole'}, output = 'text'}
         
         target is a special selector and can be added to specify which section of html code should data be extracted from
         Example of target use:
-            target = {'tag' : 'div', 'attrs' : {'class':'s-main-slot s-result-list s-search-results sg-row'}}
+            target = {'tag' : 'div', 'attrs' : {'class':'s-main-slot s-result-list s-search-results sg-row'}, output = 'text'}
         
         items is a mandatory selector which refers to the repeating blocks of html code from soup object
         Example of item use:
-            items =  {'tag' : 'div', 'attrs' : {'class':'s-result-item'}}
-
+            items =  {'tag' : 'div', 'attrs' : {'class':'s-result-item'}, output = 'text'}
+        
         Valid call: 
             soup = get_webpage_data("https://www.amazon.com/s?k=headphones&crid=1DUUWW6PEVAJ1&sprefix=headphones%2Caps%2C161&ref=nb_sb_noss_1")
             extract_many(soup, 
-                target = {'tag' : 'div', 'attrs' : {'class':'s-main-slot s-result-list s-search-results sg-row'}},
-                items =  {'tag' : 'div', 'attrs' : {'class':'s-result-item'}},
-                title =  {'tag' : 'h2', 'attrs' : {'class':'a-size-mini a-spacing-none a-color-base s-line-clamp-2'}})
+                target = {'tag' : 'div', 'attrs' : {'class':'s-main-slot s-result-list s-search-results sg-row'}, output = 'text'},
+                items =  {'tag' : 'div', 'attrs' : {'class':'s-result-item'}, output = 'text'},
+                title =  {'tag' : 'h2', 'attrs' : {'class':'a-size-mini a-spacing-none a-color-base s-line-clamp-2'}, output = 'text'})
     """
     if 'target' in selectors:
         tag = selectors['target'].get('tag')
@@ -164,5 +165,5 @@ def extract_many(soup : BeautifulSoup, **selectors) -> list:
             return data_list
     else:
         print("items is required as a parameter containing dict containing tag, attrs as keys")
-        print("Example: items = {'tag' : 'div', 'attrs' : {...}")
+        print("Example: items = {'tag' : 'div', 'attrs' : {...}, output = 'text'")
     

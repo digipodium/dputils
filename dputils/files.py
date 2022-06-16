@@ -1,6 +1,4 @@
 #source $HOME/.poetry/env command imp
-#To publish, cd dutils, then poetry publish
-#poetry add 'module'
 import os
 from xmlrpc.client import Boolean
 import docx2txt
@@ -131,5 +129,3 @@ def __doc_write__(path : str, data : str) -> bool:
     except Exception as e:
         print("Doc/Docx file could not be modified")
         raise e
-
-#how to generate github pages
