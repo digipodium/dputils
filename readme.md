@@ -1,5 +1,7 @@
 A python library which can be used to extraxct data from files, pdfs, doc(x) files, as well as save data into these files. This library can be used to scrape and extract webpage data from websites as well.
 
+# Files Modules
+
 Functions from dputils.files:
 1. get_data: 
     - To import, use statement: 
@@ -27,6 +29,7 @@ Functions from dputils.files:
         ```
     - Returns True if file is successfully accessed and modified. Otherwise False.
 
+# Scrape Modules
 Functions from dputils.scrape:
 1. get_webpage_data:
     - To import, use statement: 
@@ -42,12 +45,12 @@ Functions from dputils.scrape:
     - Returns data as a BeautifulSoup object
 
 2. extract_one:
+    - extract_one can be used to extract a data item as a dict from data in a given BeautifulSoup object
     - To import, use statement: 
         ```python3
         from dputils.scrape import extract_one
         ```
-    - extract_one can be used to extract a data item as a dict from data in a given BeautifulSoup object
-    - sample call: 
+    - usage: 
         ```python3
         soup = get_webpage_data("https://en.wikipedia.org/wiki/Hurricane_Leslie_(2018)")
 
@@ -55,6 +58,71 @@ Functions from dputils.scrape:
         print(dataDict)
         ```
     - Output will be of type dict
+
+    ## Example:
+    ```python3
+    example here
+    ```
+3. extract_many:
+
+    ## Example:
+    import the functions
+    ```python3
+    from dputils.scrape import extract_many, get_webpage_data
+    ```
+    grap your soup
+    ```python3
+    url = "https://www.flipkart.com/search?q=mobiles&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off"
+    soup = get_webpage_data(url)
+    ```
+    Provide all the parameters in the dict as shown in the example below.
+    ```python3
+    target = {
+    'tag': 'div',
+    'attrs':{'class':'_1YokD2 _3Mn1Gg'}
+    }
+    items = {
+        'tag': 'div',
+        'attrs':{'class':'_1AtVbE col-12-12'}
+    }
+    title = {
+        'tag': 'div',
+        'attrs':{'class':'_4rR01T'}
+    }
+    price = {
+        'tag': 'div',
+        'attrs':{'class':'_30jeq3 _1_WHN1'}
+    }
+    rating = {
+        'tag': 'div',
+        'attrs':{'class':'_3LWZlK'}
+    }
+    link = {
+        'tag': 'a',
+        'attrs':{'class':'_1fQZEK'},
+        'output':'href'
+    }
+    ```
+    call the functions with correct names
+    - **soup** : from get_webpage_data() function
+    - **target**: the subsection where the contents are present (optional)
+    - **items** : the repeating HTML code the contains the items (required)
+    - others will be the names and dicts of items to be extracted just link in extract one
+    ```python3
+    out= extract_many_1(soup, target=target, items=items, title=title, price=price, rating=rating, link=link)
+    ```
+    - Output will be a list of dicts
+    ```python3
+    print(out)
+    ```
+    (optional) Convert the data into pandas dataframe
+    ```python3
+    import pandas as pd
+    df = pd.DataFrame(out)
+    print(df)
+    ```
+    <img src="imgs/outputdf.png">
+
 
 These functions can used on python versions 3.8 or greater.
 
