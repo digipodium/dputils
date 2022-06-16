@@ -121,9 +121,10 @@ def __pdf_write__(path : str, data : str) -> bool:
 
 def __doc_write__(path : str, data : str) -> bool:
     try:
+        paras = data.split('\n')
         document = Document(path)
-        paragraph = document.paragraphs[len(document.paragraphs) - 1]
-        paragraph.text = data
+        for para in paras:
+            document.add_paragraph(para)
         document.save(path)
         return True
     except Exception as e:
