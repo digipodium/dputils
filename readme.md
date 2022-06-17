@@ -123,7 +123,21 @@ Functions from dputils.scrape:
     ```
     <img src="imgs/outputdf.png">
 
+4. extract_urls
+    - extract_urls can be used to extract all urls as a list from data in a given BeautifulSoup object
+    - To import, use statement: 
+        ```python3
+        from dputils.scrape import extract_urls
+        ```
+    - usage: 
+        ```python3
+        soup = get_webpage_data("https://en.wikipedia.org/wiki/Hurricane_Leslie_(2018)")
 
+        urlList = extract_urls(soup, target = {'tag' : 'div', 'attrs' : {'class':'s-matching-dir sg-col-16-of-20 sg-col sg-col-8-of-12 sg-col-12-of-16'}})
+        print(urlList)
+        ```
+    - Output will be list of urls
+    
 These functions can used on python versions 3.8 or greater.
 
 References for more help: https://github.com/digipodium/dputils

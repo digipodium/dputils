@@ -167,6 +167,14 @@ def extract_many(soup : BeautifulSoup, **selectors) -> list:
         print("Example: items = {'tag' : 'div', 'attrs' : {...}, output = 'text'")
 
 def extract_urls(soup : BeautifulSoup, target = None) -> list:
+    """
+    Obtains all the urls from given website
+    Returns all urls in a list
+    
+    Args:
+    soup (BeautifulSoup): Contains entire page data as BeautifulSoup object. URLs will be extracted from this object
+    target (dict): target is an optional arg and can be added to specify which section of html code should urls be extracted from
+    """
     if target is not None:
         tag = target.get('tag')
         attrs = target.get('attrs')

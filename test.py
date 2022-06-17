@@ -23,6 +23,5 @@ def test_extract_many():
     items =  {'tag' : 'div', 'attrs' : {'class':'s-result-item'}},
     title =  {'tag' : 'h2', 'attrs' : {'class':'a-size-mini a-spacing-none a-color-base s-line-clamp-2'}})) == list
 def test_extract_urls():
-    assert type(extract_urls(get_webpage_data("https://www.amazon.com/s?k=headphones&crid=1DUUWW6PEVAJ1&sprefix=headphones%2Caps%2C161&ref=nb_sb_noss_1"), 
-    target = {'tag' : 'div', 'attrs' : {'class':'s-main-slot s-result-list s-search-results sg-row'}},
-    items =  {'tag' : 'div', 'attrs' : {'class':'s-result-item'}},)) == list
+    assert type(extract_urls(get_webpage_data("https://www.amazon.com/s?k=headphones&crid=1DUUWW6PEVAJ1&sprefix=headphones%2Caps%2C161&ref=nb_sb_noss_1"))) == list
+    assert None not in extract_urls(get_webpage_data("https://www.amazon.com/s?k=headphones&crid=1DUUWW6PEVAJ1&sprefix=headphones%2Caps%2C161&ref=nb_sb_noss_1"))
