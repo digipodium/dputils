@@ -124,7 +124,6 @@ def extract_many(soup : BeautifulSoup, **selectors) -> list:
             print("Example: target = {'tag' : 'div', 'attrs' : {...}")
             return None
         else:
-            print(soup)
             target = soup.find(tag, attrs)
             if target is None:
                 print(f"Could not find target section with this {tag} and {attrs}")
@@ -166,4 +165,29 @@ def extract_many(soup : BeautifulSoup, **selectors) -> list:
     else:
         print("items is required as a parameter containing dict containing tag, attrs as keys")
         print("Example: items = {'tag' : 'div', 'attrs' : {...}, output = 'text'")
-    
+
+def extract_urls(soup : BeautifulSoup, target = None) -> list:
+    if target is not None:
+        tag = target.get('tag')
+        attrs = target.get('attrs')
+        if tag is None:
+            print("Please give valid selectors")
+            print("Example: target = {'tag' : 'div', 'attrs' : {...}")
+            return None
+        else:
+            target = soup.find(tag, attrs)
+            if target is None:
+                print(f"Could not find target section with this {tag} and {attrs}")
+                return None
+    else:
+        target = soup
+    url_list = target.find_all('a'); links = set()
+    try:
+        for link in url_list:
+            url = link.attrs.get('href')
+            if url:
+                if url != "#":
+                    links.add(url)
+    except Exception as e:
+        print("Could not filter links")
+    return list(links)
