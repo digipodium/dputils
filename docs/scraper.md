@@ -1,4 +1,4 @@
-[homepage](index.md) | [scraper functions](scraper.md)
+[homepage](index.md) | [files functions](files.md)
 # Scrape Modules
 
 The functions from dputils.scrape can be used to get data from a webpage and extract certain elements from it
