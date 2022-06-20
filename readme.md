@@ -1,6 +1,6 @@
 A python library which can be used to extraxct data from files, pdfs, doc(x) files, as well as save data into these files. This library can be used to scrape and extract webpage data from websites as well.
 
-# Files Modules
+### Files Modules
 
 Functions from dputils.files:
 1. get_data: 
@@ -29,7 +29,7 @@ Functions from dputils.files:
         ```
     - Returns True if file is successfully accessed and modified. Otherwise False.
 
-# Scrape Modules
+### Scrape Modules
 Functions from dputils.scrape:
 1. get_webpage_data:
     - To import, use statement: 
@@ -59,13 +59,11 @@ Functions from dputils.scrape:
         ```
     - Output will be of type dict
 
-    ## Example:
     ```python3
     example here
     ```
 3. extract_many:
 
-    ## Example:
     import the functions
     ```python3
     from dputils.scrape import extract_many, get_webpage_data
