@@ -27,6 +27,7 @@ Functions from dputils.files:
         print(content)
         ```
     - Returns a string or binary data depending on the output arg
+    - images will not be extracted
 
 2. save_data:
     - To import, use statement:

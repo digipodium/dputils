@@ -15,6 +15,8 @@ Functions from dputils.scrape:
         soup = get_webpage_data("https://en.wikipedia.org/wiki/Hurricane_Leslie_(2018)")
         print(type(soup))
         ```
+    - sample output:
+      <img src = "imgs/get_webpage_data_example.png">
     - Returns data as a BeautifulSoup object
 
 2. extract_one:
@@ -23,19 +25,17 @@ Functions from dputils.scrape:
         ```python3
         from dputils.scrape import extract_one
         ```
-    - usage: 
+    - sample call: 
         ```python3
         soup = get_webpage_data("https://en.wikipedia.org/wiki/Hurricane_Leslie_(2018)")
 
         dataDict = extract_one(soup, title = {'tag' : 'h1', 'attrs' : {'id' : 'firstHeading'}, 'output' : 'text'})
         print(dataDict)
         ```
+    - sample output:
+      <img src = "imgs/extract_one_example.png">
     - Output will be of type dict
 
-    ## Example:
-    ```python3
-    example here
-    ```
 3. extract_many:
 
     ## Example:
@@ -85,9 +85,7 @@ Functions from dputils.scrape:
     out= extract_many_1(soup, target=target, items=items, title=title, price=price, rating=rating, link=link)
     ```
     - Output will be a list of dicts
-    ```python3
-    print(out)
-    ```
+    <img src = "imgs/extract_many_example.png">
     (optional) Convert the data into pandas dataframe
     ```python3
     import pandas as pd
@@ -102,12 +100,13 @@ Functions from dputils.scrape:
         ```python3
         from dputils.scrape import extract_urls
         ```
-    - usage: 
+    - sample call: 
         ```python3
         soup = get_webpage_data("https://en.wikipedia.org/wiki/Hurricane_Leslie_(2018)")
 
         urlList = extract_urls(soup, target = {'tag' : 'div', 'attrs' : {'class':'s-matching-dir sg-col-16-of-20 sg-col sg-col-8-of-12 sg-col-12-of-16'}})
         print(urlList)
         ```
+    - sample output:
+      <img src = "imgs/extract_urls_example.png">
     - Output will be list of urls
-

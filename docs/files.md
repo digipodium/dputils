@@ -15,8 +15,12 @@ Functions from dputils.files:
         content = get_data(r"sample.docx")
         print(content)
         ```
+    - sample output:
+      <img src = "imgs/get_doc_data_example.png">
     - Returns a string or binary data depending on the output arg
-
+    - images will not be extracted
+    
+    
 2. save_data:
     - To import, use statement:
          ```python3
@@ -28,4 +32,6 @@ Functions from dputils.files:
         pdfContent = save_data("sample.pdf", "Sample text to insert")
         print(pdfContent)
         ```
+    - sample output:
+      <img src = "imgs/save_doc_data.png">
     - Returns True if file is successfully accessed and modified. Otherwise False.
