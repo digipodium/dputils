@@ -94,7 +94,7 @@ Functions from dputils.scrape:
     df = pd.DataFrame(out)
     print(df)
     ```
-    <img src = "/Users/akulsingh/Desktop/Internship/docs/imgs">
+    <img src = "/Users/akulsingh/Desktop/Internship/docs/imgs/outputdf.png">
 
 4. extract_urls
     - extract_urls can be used to extract all urls as a list from data in a given BeautifulSoup object
