@@ -1,3 +1,4 @@
+[homepage](index.md) | [scraper functions](scraper.md)
 # Files Modules
 
 The functions from dputils.files can be used to get and save data into txt, doc(x), pdf files and more

@@ -1,3 +1,4 @@
+[homepage](index.md) | [scraper functions](scraper.md)
 # Scrape Modules
 
 The functions from dputils.scrape can be used to get data from a webpage and extract certain elements from it
@@ -109,3 +110,4 @@ Functions from dputils.scrape:
         print(urlList)
         ```
     - Output will be list of urls
+
