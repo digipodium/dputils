@@ -5,7 +5,7 @@ dputils is a python library which can be used to extraxct data from files, pdfs,
 
 This library can be used to scrape and extract webpage data from websites as well.
 
-## Installation Requirements and 
+## Installation Requirements and Instructions
 
 Python versions 3.8 or above should be installed. After that open your terminal:
 For windows users:
