@@ -119,7 +119,7 @@ Functions from dputils.scrape:
     df = pd.DataFrame(out)
     print(df)
     ```
-    <img src = "docs/imgs/outputdf.png">
+    <img src = "https://digipodium.github.io/dputils/imgs/outputdf.png">
 
 4. extract_urls
     - extract_urls can be used to extract all urls as a list from data in a given BeautifulSoup object
