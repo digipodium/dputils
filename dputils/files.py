@@ -33,6 +33,7 @@ def get_data(path : str, output = 's', encoding = 'utf-8') -> str:
                 data = __text_read__(path, encoding = encoding)
             except:
                 print("Encoding not supported")
+                data = None
         else:
             print("File type could not be understood")
             data = None
