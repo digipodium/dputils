@@ -17,11 +17,14 @@ def get_webpage_data(url, headers = None, cookies = None, clean = False) -> Beau
     Obtains data from any website
     Returns data as a BeautifulSoup object
     
-    Args:
-    url (str): url of the website to take data from
-    headers (str): default value is None, which then creates fake useragent
-    cookies (str): default value is None, which then satisfies given website's cookie policy
-    clean (bool): default value is True, which cleans url
+    #### Args:
+    `url` (str): url of the website to take data from
+
+    `headers` (str): default value is None, which then creates fake useragent
+
+    `cookies` (str): default value is None, which then satisfies given website's cookie policy
+
+    `clean` (bool): default value is True, which cleans url
     """
     if clean:
         url = __clean_url__(url)
@@ -50,18 +53,35 @@ def extract_one(soup : BeautifulSoup, **selectors) -> dict:
     Extracts a single data item from given BeautifulSoup object
     Output will be a dict of {title : data_stored_in_selectors}
     
-    Args:
-    soup (BeautifulSoup): Contains entire page data as BeautifulSoup object. Data will be extracted from this object
-    **selectors (dict): dict of {key : info}
-        info must be written in following manner:
-           first key is 'tag' with value as tag from where data is obtained
-           second key is 'attrs' with value as dict containing id or class information
-           third key is the output type of data: text, href or src (for images)
-        Valid Examples:
-           titleDict = {'tag' : 'span', 'attrs' : {'id' : 'productTitle'}, 'output' : 'text'} (info)
-           priceDict = {'tag' : 'span', 'attrs' : {'class' : 'a-price-whole'}, 'output' : 'text'}
-        Valid call: 
-           extract_one(soup, titleDict, priceDict) 
+    #### Args:
+    `soup` (BeautifulSoup): Contains entire page data as BeautifulSoup object. Data will be extracted from this object
+    
+    `**selectors` (dict): dict of {key : info}
+    
+    #### info must be written in a dict format with following keys:
+    ##### A simple selector
+    
+    - first key is `'tag'` with value as tag from where data is obtained
+    
+    - second key is `'attrs'` with value as dict containing id or class information
+    
+    - third key is `'output'`: which specifies type of data recieved: text, href or src
+        - `output` key can be 'text' or 'href' or 'src' or 'object'. `text` is default value
+        - if output is 'text', then text will be retreived from the tag
+        - if output is 'href', then href will be retreived from the tag [for <a> tags]
+        - if output is 'src', then src will be retreived from the tag [for <img> tags]
+        - if output is 'object', then object will be retured
+
+    #### Selector Examples:
+    ```
+    titleDict = {'tag' : 'span', 'attrs' : {'id' : 'productTitle'}, 'output' : 'text'} (info)
+    priceDict = {'tag' : 'span', 'attrs' : {'class' : 'a-price-whole'}, 'output' : 'text'}
+    ```
+    
+    #### Usage: 
+    ```
+    extract_one(soup, titleDict, priceDict) 
+    ```
     """
     if not isinstance(soup, BeautifulSoup):
         print("Not a BeautifulSoup object")
@@ -92,18 +112,24 @@ def extract_many(soup : BeautifulSoup, **selectors) -> list:
     Extracts several data items from given BeautifulSoup object
     Output will be a list containing dicts of {title : data_stored_in_selectors}
     
-    Args:
+    #### Args:
     `soup` (BeautifulSoup): Contains entire page data as BeautifulSoup object. Data items will be extracted from this object
 
     `**selectors` (dict): dict of {key : info}
         
-    #### info must be written in following manner:
+   #### info must be written in a dict format with following keys:
+    ##### A simple selector
     
-    - first key is 'tag' with value as tag from where data is obtained
+    - first key is `'tag'` with value as tag from where data is obtained
     
-    - second key is 'attrs' with value as dict containing id or class information
+    - second key is `'attrs'` with value as dict containing id or class information
     
-    - third key is 'output': which specifies type of data recieved: text, href or src
+    - third key is `'output'`: which specifies type of data recieved: text, href or src
+        - `output` key can be 'text' or 'href' or 'src' or 'object'. `text` is default value
+        - if output is 'text', then text will be retreived from the tag
+        - if output is 'href', then href will be retreived from the tag [for <a> tags]
+        - if output is 'src', then src will be retreived from the tag [for <img> tags]
+        - if output is 'object', then object will be retured
     
     #### Valid Examples:
     ```
@@ -190,8 +216,8 @@ def extract_urls(soup : BeautifulSoup, target = None) -> list:
     Returns all urls in a list
     
     Args:
-    soup (BeautifulSoup): Contains entire page data as BeautifulSoup object. URLs will be extracted from this object
-    target (dict): target is an optional arg and can be added to specify which section of html code should urls be extracted from
+    soup (BeautifulSoup) : Contains entire page data as BeautifulSoup object. URLs will be extracted from this object
+    target (dict) : target is an optional arg and can be added to specify which section of html code should urls be extracted from
     """
     if target is not None:
         tag = target.get('tag')
