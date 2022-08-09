@@ -77,7 +77,9 @@ def extract_one(soup : BeautifulSoup, **selectors) -> dict:
             elif output == 'href':
                 data[key] = soup.find(tag, attrs = attrs).attrs.get('href') 
             elif output == 'src': #for images
-                data[key] = soup.find(tag, attrs = attrs).attrs.get('src')     
+                data[key] = soup.find(tag, attrs = attrs).attrs.get('src')  
+            elif output =='object': #for objects
+                data[key] = soup.find(tag, attrs = attrs)   
             else:
                 print('Not suitable output')
         return data
@@ -91,30 +93,44 @@ def extract_many(soup : BeautifulSoup, **selectors) -> list:
     Output will be a list containing dicts of {title : data_stored_in_selectors}
     
     Args:
-    soup (BeautifulSoup): Contains entire page data as BeautifulSoup object. Data items will be extracted from this object
-    **selectors (dict): dict of {key : info}
-        info must be written in following manner:
-            first key is 'tag' with value as tag from where data is obtained
-            second key is 'attrs' with value as dict containing id or class information
-            third key is 'output': which specifies type of data recieved: text, href or src
-        Valid Examples:
-            title =  {'tag' : 'h2', 'attrs' : {'class':'a-size-mini a-spacing-none a-color-base s-line-clamp-2'}, output = 'text'}
-            priceDict = {'tag' : 'span', 'attrs' : {'class' : 'a-price-whole'}, output = 'text'}
+    `soup` (BeautifulSoup): Contains entire page data as BeautifulSoup object. Data items will be extracted from this object
+
+    `**selectors` (dict): dict of {key : info}
         
-        target is a special selector and can be added to specify which section of html code should data be extracted from
-        Example of target use:
-            target = {'tag' : 'div', 'attrs' : {'class':'s-main-slot s-result-list s-search-results sg-row'}, output = 'text'}
-        
-        items is a mandatory selector which refers to the repeating blocks of html code from soup object
-        Example of item use:
-            items =  {'tag' : 'div', 'attrs' : {'class':'s-result-item'}, output = 'text'}
-        
-        Valid call: 
-            soup = get_webpage_data("https://www.amazon.com/s?k=headphones&crid=1DUUWW6PEVAJ1&sprefix=headphones%2Caps%2C161&ref=nb_sb_noss_1")
-            extract_many(soup, 
-                target = {'tag' : 'div', 'attrs' : {'class':'s-main-slot s-result-list s-search-results sg-row'}, output = 'text'},
-                items =  {'tag' : 'div', 'attrs' : {'class':'s-result-item'}, output = 'text'},
-                title =  {'tag' : 'h2', 'attrs' : {'class':'a-size-mini a-spacing-none a-color-base s-line-clamp-2'}, output = 'text'})
+    #### info must be written in following manner:
+    
+    - first key is 'tag' with value as tag from where data is obtained
+    
+    - second key is 'attrs' with value as dict containing id or class information
+    
+    - third key is 'output': which specifies type of data recieved: text, href or src
+    
+    #### Valid Examples:
+    ```
+    title =  {'tag' : 'h2', 'attrs' : {'class':'a-size-mini a-spacing-none a-color-base s-line-clamp-2'}, output = 'text'}
+    priceDict = {'tag' : 'span', 'attrs' : {'class' : 'a-price-whole'}, output = 'text'}
+    ```
+    
+    target is a special selector and can be added to specify which section of html code should data be extracted from
+    
+    #### Example of target use:
+    ```
+    target = {'tag' : 'div', 'attrs' : {'class':'s-main-slot s-result-list s-search-results sg-row'}, output = 'text'}
+    ```
+    #### items is a mandatory selector which refers to the repeating blocks of html code from soup object
+    
+    Example of item use:
+    ```
+    items =  {'tag' : 'div', 'attrs' : {'class':'s-result-item'}, output = 'text'}
+    ```
+    #### Valid call: 
+    ```
+    soup = get_webpage_data("https://www.amazon.com/s?k=headphones&crid=1DUUWW6PEVAJ1&sprefix=headphones%2Caps%2C161&ref=nb_sb_noss_1")
+    extract_many(soup, 
+            target = {'tag' : 'div', 'attrs' : {'class':'s-main-slot s-result-list s-search-results sg-row'}, output = 'text'},
+            items =  {'tag' : 'div', 'attrs' : {'class':'s-result-item'}, output = 'text'},
+            title =  {'tag' : 'h2', 'attrs' : {'class':'a-size-mini a-spacing-none a-color-base s-line-clamp-2'}, output = 'text'})
+    ```
     """
     if 'target' in selectors:
         tag = selectors['target'].get('tag')
@@ -154,6 +170,8 @@ def extract_many(soup : BeautifulSoup, **selectors) -> list:
                             data[key] = item.find(tag, attrs = attrs).attrs.get('href') 
                         elif output == 'src': 
                             data[key] = item.find(tag, attrs = attrs).attrs.get('src')     
+                        elif output == 'object':
+                            data[key] = item.find(tag, attrs = attrs)
                         else:
                             print('Not suitable output')
                     data_list.append(data)
