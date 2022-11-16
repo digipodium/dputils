@@ -32,7 +32,7 @@ def get_webpage_data(url, headers = None, cookies = None, clean = False) -> Beau
         print("Invalid url")
         return None
     if headers is None:
-        ua = UserAgent()
+        ua = UserAgent(verify_ssl=False)
         headers = {'User-Agent' : ua.random}
     if cookies is None:
         cookies = {"session-id" : "", "session-id-time" : "", "session-token" : ""}
