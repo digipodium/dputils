@@ -2,7 +2,7 @@
 name = "dputils"
 version = "0.1.16.2"
 description = "This library is utility library from digipodium"
-authors = ["AkulS1008 <akulsingh0708@gmail.com>"]
+authors = ["AkulS1008 <akulsingh0708@gmail.com>", "Team Digipodium"]
 maintainers = ["Zaid Kamil <xaidmetamorphos@gmail.com>"]
 readme = "readme.md"
 license = "MIT"
@@ -17,7 +17,6 @@ docx2txt = "^0.8"
 "pdfminer.six" = "^20220524"
 fpdf2 = "^2.5.4"
 bs4 = "^0.0.1"
-fake-useragent = "^0.1.11"
 requests = "^2.27.1"
 python-docx = "^0.8.11"
 
@@ -33,4 +32,4 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules"
 ]
 
-keywords = ["file-handling", "web-scraping", "utility", "dputils", "digipodium"]
+keywords = ["file-handling", "web-scraping", "utility", "dputils", "digipodium", "bot", "crawlers", "scraper", "digipod"]
