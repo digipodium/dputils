@@ -1,43 +1,42 @@
+import re
+from typing import Optional
+
 import requests
 from bs4 import BeautifulSoup
-from fake_useragent import UserAgent
-import re
+
+from .utills import Browser
+
 
 def __validate_url__(url):
-    regex = re.compile(r'^(?:http)s?://', re.IGNORECASE)
+    regex = re.compile(r'^https?://', re.IGNORECASE)
     return re.match(regex, url) is not None
+
 
 def __clean_url__(url):
     if '?' in url:
         url = url.split('?')[0]
     return url
 
-def get_webpage_data(url, headers = None, cookies = None, clean = False) -> BeautifulSoup:
+
+def get_webpage_data(url, headers=None, cookies=None, clean=False) -> Optional[BeautifulSoup]:
     """
-    Obtains data from any website
-    Returns data as a BeautifulSoup object
-    
-    #### Args:
-    `url` (str): url of the website to take data from
-
-    `headers` (str): default value is None, which then creates fake useragent
-
-    `cookies` (str): default value is None, which then satisfies given website's cookie policy
-
-    `clean` (bool): default value is True, which cleans url
+    Obtains data from any website and returns data as a BeautifulSoup object
+    - **url** (str): url of the website to take data from
+    - **headers** (str): default value is `None`, which then creates fake useragent
+    - **cookies** (str): default value is `None`, which then satisfies given website's cookie policy
+    - **clean** (bool): default value is `True`, which cleans url
     """
     if clean:
         url = __clean_url__(url)
     if not __validate_url__(url):
         print("Invalid url")
-        return None
     if headers is None:
-        ua = UserAgent(verify_ssl=False)
-        headers = {'User-Agent' : ua.random}
+        ua = Browser.any()
+        headers = {'User-Agent': ua}
     if cookies is None:
-        cookies = {"session-id" : "", "session-id-time" : "", "session-token" : ""}
+        cookies = {"session-id": "", "session-id-time": "", "session-token": ""}
     try:
-        page = requests.get(url, headers = headers, cookies = cookies)
+        page = requests.get(url, headers=headers, cookies=cookies)
         if page.status_code == 404:
             return None
         elif page.status_code == 503:
@@ -48,7 +47,8 @@ def get_webpage_data(url, headers = None, cookies = None, clean = False) -> Beau
     except Exception as e:
         raise e
 
-def extract_one(soup : BeautifulSoup, **selectors) -> dict:
+
+def extract_one(soup: BeautifulSoup, **selectors) -> dict:
     """
     Extracts a single data item from given BeautifulSoup object
     Output will be a dict of {title : data_stored_in_selectors}
@@ -88,26 +88,27 @@ def extract_one(soup : BeautifulSoup, **selectors) -> dict:
         return None
     data = {}
     try:
-        for key,info in selectors.items():
+        for key, info in selectors.items():
             tag = info.get('tag', 'div')
-            attrs = info.get('attrs', None) #defaults as 2nd param
+            attrs = info.get('attrs', None)  # defaults as 2nd param
             output = info.get('output', 'text')
             if output == 'text':
-                data[key] = soup.find(tag, attrs = attrs).text.strip()
+                data[key] = soup.find(tag, attrs=attrs).text.strip()
             elif output == 'href':
-                data[key] = soup.find(tag, attrs = attrs).attrs.get('href') 
-            elif output == 'src': #for images
-                data[key] = soup.find(tag, attrs = attrs).attrs.get('src')  
-            elif output =='object': #for objects
-                data[key] = soup.find(tag, attrs = attrs)   
+                data[key] = soup.find(tag, attrs=attrs).attrs.get('href')
+            elif output == 'src':  # for images
+                data[key] = soup.find(tag, attrs=attrs).attrs.get('src')
+            elif output == 'object':  # for objects
+                data[key] = soup.find(tag, attrs=attrs)
             else:
                 print('Not suitable output')
         return data
     except Exception as e:
         print("Could not extract data")
-        raise 
+        raise
 
-def extract_many(soup : BeautifulSoup, **selectors) -> list:
+
+def extract_many(soup: BeautifulSoup, **selectors) -> list:
     """
     Extracts several data items from given BeautifulSoup object
     Output will be a list containing dicts of {title : data_stored_in_selectors}
@@ -174,7 +175,7 @@ def extract_many(soup : BeautifulSoup, **selectors) -> list:
         target = soup
     data_list = []
     if 'items' in selectors:
-        items = target.find_all(selectors['items'].get('tag'), attrs = selectors['items'].get('attrs'))
+        items = target.find_all(selectors['items'].get('tag'), attrs=selectors['items'].get('attrs'))
         items_count = len(items)
         if items_count == 0:
             print("No data found")
@@ -186,18 +187,18 @@ def extract_many(soup : BeautifulSoup, **selectors) -> list:
             for idx, item in enumerate(items):
                 data = {}
                 try:
-                    for key,info in selectors.items():
+                    for key, info in selectors.items():
                         tag = info.get('tag', 'div')
-                        attrs = info.get('attrs', None) 
+                        attrs = info.get('attrs', None)
                         output = info.get('output', 'text')
                         if output == 'text':
-                            data[key] = item.find(tag, attrs = attrs).text.strip()
+                            data[key] = item.find(tag, attrs=attrs).text.strip()
                         elif output == 'href':
-                            data[key] = item.find(tag, attrs = attrs).attrs.get('href') 
-                        elif output == 'src': 
-                            data[key] = item.find(tag, attrs = attrs).attrs.get('src')     
+                            data[key] = item.find(tag, attrs=attrs).attrs.get('href')
+                        elif output == 'src':
+                            data[key] = item.find(tag, attrs=attrs).attrs.get('src')
                         elif output == 'object':
-                            data[key] = item.find(tag, attrs = attrs)
+                            data[key] = item.find(tag, attrs=attrs)
                         else:
                             print('Not suitable output')
                     data_list.append(data)
@@ -210,7 +211,8 @@ def extract_many(soup : BeautifulSoup, **selectors) -> list:
         print("items is required as a parameter containing dict containing tag, attrs as keys")
         print("Example: items = {'tag' : 'div', 'attrs' : {...}, output = 'text'")
 
-def extract_urls(soup : BeautifulSoup, target = None) -> list:
+
+def extract_urls(soup: BeautifulSoup, target=None) -> list:
     """
     Obtains all the urls from given website
     Returns all urls in a list
@@ -233,7 +235,8 @@ def extract_urls(soup : BeautifulSoup, target = None) -> list:
                 return None
     else:
         target = soup
-    url_list = target.find_all('a'); links = set()
+    url_list = target.find_all('a');
+    links = set()
     try:
         for link in url_list:
             url = link.attrs.get('href')
