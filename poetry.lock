@@ -122,17 +122,6 @@ optional = false
 python-versions = "*"
 
 [[package]]
-name = "fake-useragent"
-version = "1.1.1"
-description = "Up-to-date simple useragent faker with real world database"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-importlib-resources = {version = ">=5.0", markers = "python_version < \"3.10\""}
-
-[[package]]
 name = "fonttools"
 version = "4.38.0"
 description = "Tools to manipulate font files"
@@ -174,21 +163,6 @@ description = "Internationalized Domain Names in Applications (IDNA)"
 category = "main"
 optional = false
 python-versions = ">=3.5"
-
-[[package]]
-name = "importlib-resources"
-version = "5.10.2"
-description = "Read resources from Python packages"
-category = "main"
-optional = false
-python-versions = ">=3.7"
-
-[package.dependencies]
-zipp = {version = ">=3.1.0", markers = "python_version < \"3.10\""}
-
-[package.extras]
-docs = ["sphinx (>=3.5)", "jaraco.packaging (>=9)", "rst.linker (>=1.9)", "furo", "sphinx-lint", "jaraco.tidelift (>=1.4)"]
-testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "flake8 (<5)", "pytest-cov", "pytest-enabler (>=1.3)", "pytest-black (>=0.3.7)", "pytest-mypy (>=0.9.1)", "pytest-flake8"]
 
 [[package]]
 name = "lxml"
@@ -356,22 +330,10 @@ category = "dev"
 optional = false
 python-versions = "*"
 
-[[package]]
-name = "zipp"
-version = "3.11.0"
-description = "Backport of pathlib-compatible object wrapper for zip files"
-category = "main"
-optional = false
-python-versions = ">=3.7"
-
-[package.extras]
-docs = ["sphinx (>=3.5)", "jaraco.packaging (>=9)", "rst.linker (>=1.9)", "furo", "jaraco.tidelift (>=1.4)"]
-testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "flake8 (<5)", "pytest-cov", "pytest-enabler (>=1.3)", "jaraco.itertools", "func-timeout", "jaraco.functools", "more-itertools", "pytest-black (>=0.3.7)", "pytest-mypy (>=0.9.1)", "pytest-flake8"]
-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "0ba1108abfec6795950d21414b4cf7df6bacca5eb0a59fd68ba460709186ba11"
+content-hash = "7ae7a3ae05745273e59216f7eaebfca1733c1c92c48866d78ae5a91343ab47d8"
 
 [metadata.files]
 atomicwrites = []
@@ -385,11 +347,9 @@ colorama = []
 cryptography = []
 defusedxml = []
 docx2txt = []
-fake-useragent = []
 fonttools = []
 fpdf2 = []
 idna = []
-importlib-resources = []
 lxml = []
 more-itertools = []
 packaging = []
@@ -404,4 +364,3 @@ requests = []
 soupsieve = []
 urllib3 = []
 wcwidth = []
-zipp = []

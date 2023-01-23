@@ -1,4 +1,7 @@
+from dataclasses import dataclass
 from random import choice
+
+from bs4 import BeautifulSoup
 
 
 class Browser:
@@ -15,3 +18,49 @@ class Browser:
     @staticmethod
     def any():
         return choice(Browser.user_agents)
+
+
+@dataclass
+class Tag:
+    # available output formats
+    outputs = ['text', 'href', 'src', 'object']
+
+    # fields
+    name: str = 'div'
+    output: str = 'text'
+    cls: str = None
+    id: str = None
+    attrs: dict = None
+
+    def __post_init__(self):
+        if self.output not in self.outputs:
+            raise ValueError(f"output must be one of {self.outputs}")
+        if self.attrs is None:
+            self.attrs = {}
+        if self.cls is not None:
+            self.attrs['class'] = self.cls
+        if self.id is not None:
+            self.attrs['id'] = self.id
+
+    def __str__(self):
+        if self.attrs is None:
+            self.attrs = {}
+        if self.cls is not None:
+            self.attrs['class'] = self.cls
+        if self.id is not None:
+            self.attrs['id'] = self.id
+        return f"ℹ️--[tag: {self.name} attrs: {self.attrs} output: {self.output}]--"
+
+    def __repr__(self):
+        return self.__str__()
+
+
+if __name__ == '__main__':
+    import requests
+
+    url = "https://www.google.com"
+    r = requests.get(url)
+    soup = BeautifulSoup(r.text, 'html.parser')
+    tag = Tag('a', cls='gb1', output='href')
+    print(tag)
+    print(soup.findAll(tag.name, tag.attrs))
