@@ -57,7 +57,7 @@ class Tag:
         return self.__str__()
 
 
-def extract_one(item, tags, data, errors):
+def extract(item, tags, data, errors):
     for key, tag in tags.items():
         if tag.output == 'text':
             try:
@@ -92,7 +92,6 @@ def extract_one(item, tags, data, errors):
                     print(f"Error for {tag=} -> {e}")
                 else:
                     data[key] = None
-
 
 class Scraper:
     def __init__(self, url: str, user_agent: str = None, cookies: dict = None, clean: bool = False):
@@ -169,7 +168,7 @@ class Scraper:
 
         """
         data = {}
-        extract_one(self.soup, tags, data, errors)
+        extract(self.soup, tags, data, errors)
         return data
 
     def get_all(self, target: Tag, items: Tag, errors=False, info=False, **tags: Tag) -> list:
@@ -195,7 +194,7 @@ class Scraper:
                 if info:
                     print(f"Extracting data for item {idx + 1}...")
                 try:
-                    extract_one(item, tags, data, errors)
+                    extract(item, tags, data, errors)
                     data_list.append(data)
                 except Exception as e:
                     if errors:
