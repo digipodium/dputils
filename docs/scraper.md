@@ -41,7 +41,7 @@ This class is used to scrape data from a webpage using BeautifulSoup library.
 ```python
 url = "https://www.flipkart.com/search?q=mobiles&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off"
 scraper = Scraper(url)
-out = scraper.get_multiple_page_data(
+out = scraper.get_repeating_page_data(
     target=Tag('div', cls='_1YokD2 _3Mn1Gg'),
     items=Tag('div', cls='_1AtVbE col-12-12'),
     title=Tag('div', cls='_4rR01T'),

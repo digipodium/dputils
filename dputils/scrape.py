@@ -173,7 +173,7 @@ class Scraper:
         extract(self.soup, tags, data, errors)
         return data
 
-    def get_multiple_page_data(self, target: Tag = None, items: Tag = None, errors=False, info=False, **tags) -> list:
+    def get_repeating_page_data(self, target: Tag = None, items: Tag = None, errors=False, info=False, **tags) -> list:
         """
         Extracts data for multiple items based on given Tag objects and returns a list of dictionaries.
 
@@ -221,11 +221,42 @@ class Scraper:
                 print(f"Error -> {e}")
         return data_list
 
+    def get_tag(self, tag: Tag, errors=False):
+        """
+        Extracts data for a single Tag object and returns a dictionary.
+
+        Args:
+            tag (Tag): Tag object to extract data for.
+            errors (bool): Flag to print errors (Default is False).
+
+        Returns:
+            dict: Extracted data.
+        """
+        data = {}
+        extract(self.soup, {tag.name: tag}, data, errors)
+        return data
+
+    def get_all_tags(self, tags: list, errors=False):
+        """
+        Extracts data for multiple Tag objects and returns a dictionary.
+
+        Args:
+            tags (list): List of Tag objects to extract data for.
+            errors (bool): Flag to print errors (Default is False).
+
+        Returns:
+            dict: Extracted data.
+        """
+        data = {}
+        for tag in tags:
+            extract(self.soup, {tag.name: tag}, data, errors)
+        return data
+
 
 if __name__ == '__main__':
     url = "https://www.flipkart.com/search?q=mobiles&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off"
     scraper = Scraper(url)
-    out = scraper.get_multiple_page_data(
+    out = scraper.get_repeating_page_data(
         target=Tag('div', cls='_1YokD2 _3Mn1Gg'),
         items=Tag('div', cls='_1AtVbE col-12-12'),
         title=Tag('div', cls='_4rR01T'),
