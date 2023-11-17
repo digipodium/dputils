@@ -18,7 +18,7 @@ from dputils.scrape import Scraper
 #
 #
 
-scr = Scraper(url="https://www.google.com")
+scr = Scraper(webpage_url="https://www.google.com")
 
 
 def test_get_webpage():

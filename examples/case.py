@@ -4,5 +4,5 @@ from fake_useragent import UserAgent
 ua = UserAgent()
 print(type(ua.random))
 
-scr = Scraper(url="https://www.google.com")
+scr = Scraper(webpage_url="https://www.google.com")
 print(scr.soup)
