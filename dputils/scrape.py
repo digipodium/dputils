@@ -1,31 +1,46 @@
 import re
-from dataclasses import dataclass
-from random import choice
-
-import requests
+import httpx
 from bs4 import BeautifulSoup
+from dataclasses import dataclass
 
+import random
 
-class Browser:
-    user_agents = [
-        'Mozilla/5.0 (compatible; MSIE 10.0; Macintosh; Intel Mac OS X 10_7_3; Trident/6.0)',
-        'Mozilla/5.0 (compatible; MSIE 8.0; Windows NT 6.1; Trident/4.0; GTB7.4; InfoPath.2; SV1; .NET CLR 3.3.69573; WOW64; en-US)',
-        'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.2 (KHTML, like Gecko) Chrome/22.0.1216.0 Safari/537.2',
-        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_4) AppleWebKit/537.13 (KHTML, like Gecko) Chrome/24.0.1290.1 Safari/537.13',
-        'Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11',
-        'Mozilla/5.0 (Windows NT 6.2; Win64; x64; rv:16.0.1) Gecko/20121011 Firefox/16.0.1',
-        'Mozilla/5.0 (iPad; CPU OS 6_0 like Mac OS X) AppleWebKit/536.26 (KHTML, like Gecko) Version/6.0 Mobile/10A5355d Safari/8536.25'
-    ]
+user_agents = {
+    "Chrome": {
+        "Windows": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36",
+        "Linux": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36"
+    },
+    "Firefox": {
+        "Windows": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:94.0) Gecko/20100101 Firefox/94.0",
+        "Mac": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:94.0) Gecko/20100101 Firefox/94.0",
+        "Linux": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:94.0) Gecko/20100101 Firefox/94.0"
+    },
+    "Safari": {
+        "Mac": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1.2 Safari/605.1.15"
+    },
+    "Edge": {
+        "Windows": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36 Edg/94.0.992.50",
+        "Mac": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36 Edg/94.0.992.50",
+        "Linux": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.71 Safari/537.36 Edg/94.0.992.50"
+    },
+    # Add more browsers as needed
+}
 
-    @staticmethod
-    def any():
-        return choice(Browser.user_agents)
+def get_random_user_agent():
+    print("Selecting a random User-Agent...")
+    browsers = list(user_agents.keys())
+    random_browser = random.choice(browsers)
+    print("Randomly picked browser:", random_browser)
+    operating_systems = list(user_agents[random_browser].keys())
+    random_os = random.choice(operating_systems)
+    print("Randomly picked operating system:", random_os)
+    return user_agents[random_browser][random_os]
 
 
 @dataclass
 class Tag:
     # available output formats
-    outputs = ['text', 'href', 'src', 'object']
+    outputs = ['text', 'href', 'src', 'object', 'title', 'alt', 'value']
 
     # fields
     name: str = 'div'
@@ -92,6 +107,31 @@ def extract(dom_item, tags, data, errors):
                     print(f"Error for {tag=} -> {e}")
                 else:
                     data[key] = None
+        elif tag.output == 'title':
+            try:
+                data[key] = dom_item.find(tag.name, tag.attrs)['title']
+            except Exception as e:
+                if errors:
+                    print(f"Error for {tag=} -> {e}")
+                else:
+                    data[key] = None
+
+        elif tag.output == 'alt':
+            try:
+                data[key] = dom_item.find(tag.name, tag.attrs)['alt']
+            except Exception as e:
+                if errors:
+                    print(f"Error for {tag=} -> {e}")
+                else:
+                    data[key] = None
+        elif tag.output == 'value':
+            try:
+                data[key] = dom_item.find(tag.name, tag.attrs)['value']
+            except Exception as e:
+                if errors:
+                    print(f"Error for {tag=} -> {e}")
+                else:
+                    data[key] = None
 
 
 class Scraper:
@@ -148,16 +188,50 @@ class Scraper:
             self._clean_url()
         if not self._validate_url():
             raise ValueError(f"Invalid URL -> {self.url}")
-
-        headers = headers or {'User-Agent': Browser.any()}  # Using `or` for default values
-        cookies = cookies or {"session-id": "", "session-id-time": "", "session-token": ""}
-
+        if isinstance(headers, str):
+            headers = {'User-Agent': headers}
+        if headers is None:
+            headers = {'User-Agent': get_random_user_agent()}
+        if cookies is None:
+            cookies = {"session-id": "", "session-id-time": "", "session-token": ""}
         try:
-            page = requests.get(self.url, headers=headers, cookies=cookies)
-            page.raise_for_status()  # Raises an exception for bad status codes
+            print('🌐'*10)
+            print("User agent: ", headers)
+            print("Cookies: ", cookies)
+            print("url: ", self.url)
+            print('🌐'*10)
+            with httpx.Client(headers=headers, cookies=cookies, timeout=5, http2=True) as client:
+                page = client.get(self.url)
             return BeautifulSoup(page.content, 'html.parser')
-        except requests.RequestException as e:
+        except httpx.RequestError as e:
+            print("Request error: ")
             raise e
+        except httpx.HTTPError as e:
+            print("HTTP error: ")
+            raise e
+        except httpx.TimeoutException as e:
+            print("Timeout error: ")
+            raise e
+        
+
+        # if headers is None:
+        #     headers = {'User-Agent': Browser.any()}  # Using `or` for default values
+        #     cookies = cookies or {"session-id": "", "session-id-time": "", "session-token": ""}
+
+        #     try:
+        #         with httpx.Client() as client:
+        #             page = client.get(self.url, headers=headers, cookies=cookies)
+        #         return BeautifulSoup(page.content, 'html.parser')
+        #     except requests.RequestException as e:
+        #         raise e
+        # elif headers == -1:
+        #     cookies = cookies or {"session-id": "", "session-id-time": "", "session-token": ""}
+        #     try:
+        #         page = requests.get(self.url, cookies=cookies)
+        #         page.raise_for_status()  # Raises an exception for bad status codes
+        #         return BeautifulSoup(page.content, 'html.parser')
+        #     except requests.RequestException as e:
+        #         raise e
 
     def get_page_data(self, errors=False, **tags) -> dict:
         """
