@@ -1,55 +1,165 @@
-[homepage](index.md) | [files functions](files.md)
+# dputils Scraper Module Documentation
 
-## Module: scraper
+## Introduction
 
-This module provides a `Scraper` class that allows you to scrape data from a webpage using BeautifulSoup library. It also includes supporting classes `Browser` and `Tag`.
+The `dputils` library provides a powerful and easy-to-use web scraping module called `scraper`. This module allows users to extract data from web pages using a combination of Python's `httpx`, `BeautifulSoup`, and custom data classes. The scraper module can handle various scraping tasks, including fetching data from single pages, extracting repeated data from lists of items, and more.
 
 
-### Class: Tag
+## Data extraction from a page
 
-This class represents an HTML tag that can be used to extract specific data from a webpage.
+Here's a basic tutorial to help you get started with the `scraper` module.
 
-#### Properties
-
-- `name` (str): The name of the HTML tag (default: 'div').
-- `output` (str): The desired output format, which can be one of ['text', 'href', 'src', 'object'] (default: 'text').
-- `cls` (str): The class attribute of the HTML tag (default: None).
-- `id` (str): The id attribute of the HTML tag (default: None).
-- `attrs` (dict): Additional attributes of the HTML tag (default: None).
-
-#### Methods
-
-- `__post_init__()` - Initializes the Tag object and performs necessary attribute assignments.
-- `__str__()` - Returns a string representation of the Tag object.
-- `__repr__()` - Returns a string representation of the Tag object.
-
-### Class: Scraper
-
-This class is used to scrape data from a webpage using BeautifulSoup library.
-
-#### Methods
-
-- `__init__(url: str, user_agent: str = None, cookies: dict = None, clean: bool = False)` - Initializes the Scraper object.
-- `__validate_url__()` - Validates the URL of the webpage.
-- `__clean_url__()` - Cleans the URL by removing query parameters.
-- `__soup__(headers=None, cookies=None, clean=False)` - Obtains data from the webpage and returns a BeautifulSoup object.
-- `get(errors=False, **tags: Tag) -> dict` - Extracts data based on the given list of Tag objects and returns a dictionary.
-- `get_all(target: Tag, items: Tag, errors=False, info=False, **tags: Tag) -> list` - Extracts data for multiple items from the webpage and returns a list of dictionaries.
-
-#### Example Usage
+1. **Import the required classes and functions:**
 
 ```python
-url = "https://www.flipkart.com/search?q=mobiles&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off"
-scraper = Scraper(url)
-out = scraper.get_repeating_page_data(
-    target=Tag('div', cls='_1YokD2 _3Mn1Gg'),
-    items=Tag('div', cls='_1AtVbE col-12-12'),
-    title=Tag('div', cls='_4rR01T'),
-    price=Tag('div', cls='_30jeq3 _1_WHN1'),
-    link=Tag('a', cls='_1fQZEK', output='href'),
-)
+from dputils.scraper import Scraper, Tag
 ```
 
-This code creates a `Scraper` object with the specified URL and extracts data for multiple items from the webpage. The target and items are specified using `Tag` objects, and additional data to be extracted is specified as keyword arguments. The extracted data is returned as a list of dictionaries.
+2. **Initialize the `Scraper` class with the URL of the webpage you want to scrape:**
 
-Note: The code provided in the question lacks indentation, which may cause syntax errors when executed. Make sure to fix the indentation before running the code.
+```python
+url = "https://www.example.com"
+scraper = Scraper(url)
+```
+
+3. **Define the tags you want to scrape using the `Tag` class:**
+
+```python
+title_tag = Tag(name='h1', cls='title', output='text')
+price_tag = Tag(name='span', cls='price', output='text')
+```
+
+4. **Extract data from the page:**
+
+```python
+data = scraper.get_data_from_page(title=title_tag, price=price_tag)
+print(data)
+```
+
+### Advanced Tutorial - extracting list of items from a page
+
+For more advanced usage, such as extracting repeated data from lists of items on a page, you can use the following approach:
+
+1. **Initialize the `Scraper` class:**
+
+```python
+url = "https://www.example.com/products"
+scraper = Scraper(url)
+```
+
+2. **Define the tags for the target section and the items within that section:**
+For repeated data extraction, you need to define `Target` and `item` and pass it to `get_repeating_data_from_page()` method.
+   - *target* - defines the `Tag()` for area of the page containing the list of items.
+   - *items* - defines the `Tag()` for repeated items within the target section. Like a product-card in product grid/list.
+```python
+target_tag = Tag(name='div', cls='product-list')
+item_tag = Tag(name='div', cls='product-item')
+title_tag = Tag(name='h2', cls='product-title', output='text')
+price_tag = Tag(name='span', cls='product-price', output='text')
+link_tag = Tag(name='a', cls='product-link', output='href')
+```
+
+1. **Extract repeated data from the page:**
+
+```python
+products = scraper.get_repeating_data_from_page(
+    target=target_tag,
+    items=item_tag,
+    title=title_tag,
+    price=price_tag,
+    link=link_tag
+)
+for product in products:
+    print(product)
+```
+
+## Detailed Description
+
+### Scraper Class
+
+The `Scraper` class is the main class for initializing the scraper and handling the extraction of data from web pages.
+
+#### Constructor
+
+```python
+def __init__(self, webpage_url: str, user_agent: str = None, cookies: dict = None, clean: bool = False):
+```
+
+- `webpage_url` (str): URL of the webpage to scrape.
+- `user_agent` (str): User agent string (optional).
+- `cookies` (dict): Cookies for the request (optional).
+- `clean` (bool): Flag to clean the URL (optional, default is `False`).
+
+#### Methods
+
+- **`_validate_url(self) -> bool`**: Validates the URL.
+- **`_clean_url(self)`**: Cleans the URL by removing query parameters.
+- **`_get_soup(self, headers=None, cookies=None, clean=False) -> BeautifulSoup`**: Fetches the webpage content and returns a BeautifulSoup object.
+- **`get_data_from_page(self, errors=False, **tags) -> dict`**: Extracts data based on given tags and returns a dictionary.
+- **`get_repeating_data_from_page(self, target: Tag = None, items: Tag = None, errors=False, info=False, **tags) -> list`**: Extracts data for multiple items and returns a list of dictionaries.
+- **`get_tag(self, tag: Tag, errors=False)`**: Extracts data for a single Tag object and returns a dictionary.
+- **`get_all_tags(self, tags: list, errors=False)`**: Extracts data for multiple Tag objects and returns a dictionary.
+
+### Tag Class
+
+The `Tag` class is used to define the HTML tags and attributes to be extracted from the web page.
+
+#### Constructor
+
+```python
+@dataclass
+class Tag:
+    name: str = 'div'
+    output: str = 'text'
+    cls: str = None
+    id: str = None
+    attrs: dict = None
+```
+
+- `name` (str): The name of the HTML tag (default is 'div').
+- `output` (str): The type of data to extract (default is 'text').
+- `cls` (str): The class attribute of the HTML tag (optional).
+- `id` (str): The ID attribute of the HTML tag (optional).
+- `attrs` (dict): Additional attributes for the HTML tag (optional).
+
+#### Methods
+
+- **`__post_init__(self)`**: Validates the output type and sets the attributes.
+- **`__str__(self)`**: Returns a string representation of the Tag object.
+- **`__repr__(self)`**: Returns a string representation of the Tag object.
+
+### Helper Functions
+
+- **`_get_random_user_agent()`**: Returns a random User-Agent string from a predefined list.
+
+### Extract Function
+
+The `extract` function is used to extract data from a BeautifulSoup object based on the given tags.
+
+```python
+def extract(dom_item, tags, data, errors):
+```
+
+- `dom_item`: The BeautifulSoup object to extract data from.
+- `tags`: A dictionary of Tag objects.
+- `data`: A dictionary to store the extracted data.
+- `errors`: A flag to indicate whether to print errors.
+
+## Example Usage
+
+Here's a complete example of using the `scraper` module to extract data from a webpage:
+
+```python
+from dputils.scraper import Scraper, Tag
+
+url = "https://www.example.com"
+scraper = Scraper(url)
+
+title_tag = Tag(name='h1', cls='title', output='text')
+price_tag = Tag(name='span', cls='price', output='text')
+
+data = scraper.get_data_from_page(title=title_tag, price=price_tag)
+print(data)
+```
+
+This documentation provides an overview of the `scraper` module in the `dputils` library, including basic and advanced usage tutorials, detailed descriptions of classes and functions, and an example usage.

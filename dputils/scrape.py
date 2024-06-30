@@ -5,7 +5,7 @@ from dataclasses import dataclass
 
 import random
 
-user_agents = {
+_user_agents = {
     "Chrome": {
         "Windows": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36",
         "Linux": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.61 Safari/537.36"
@@ -26,15 +26,15 @@ user_agents = {
     # Add more browsers as needed
 }
 
-def get_random_user_agent():
+def _get_random_user_agent():
     print("Selecting a random User-Agent...")
-    browsers = list(user_agents.keys())
+    browsers = list(_user_agents.keys())
     random_browser = random.choice(browsers)
     print("Randomly picked browser:", random_browser)
-    operating_systems = list(user_agents[random_browser].keys())
+    operating_systems = list(_user_agents[random_browser].keys())
     random_os = random.choice(operating_systems)
     print("Randomly picked operating system:", random_os)
-    return user_agents[random_browser][random_os]
+    return _user_agents[random_browser][random_os]
 
 
 @dataclass
@@ -191,7 +191,7 @@ class Scraper:
         if isinstance(headers, str):
             headers = {'User-Agent': headers}
         if headers is None:
-            headers = {'User-Agent': get_random_user_agent()}
+            headers = {'User-Agent': _get_random_user_agent()}
         if cookies is None:
             cookies = {"session-id": "", "session-id-time": "", "session-token": ""}
         try:
@@ -233,9 +233,9 @@ class Scraper:
         #     except requests.RequestException as e:
         #         raise e
 
-    def get_page_data(self, errors=False, **tags) -> dict:
+    def get_data_from_page(self, errors=False, **tags) -> dict:
         """
-        Extracts data based on a given list of Tag objects and returns a dictionary.
+        Extracts data based on a given list of Tag objects and returns a dictionary, from a page.
 
         Args:
             errors (bool): Flag to print errors (Default is False).
@@ -247,7 +247,7 @@ class Scraper:
         extract(self.soup, tags, data, errors)
         return data
 
-    def get_repeating_page_data(self, target: Tag = None, items: Tag = None, errors=False, info=False, **tags) -> list:
+    def get_repeating_date_from_page(self, target: Tag = None, items: Tag = None, errors=False, info=False, **tags) -> list:
         """
         Extracts data for multiple items based on given Tag objects and returns a list of dictionaries.
 
@@ -330,7 +330,7 @@ class Scraper:
 if __name__ == '__main__':
     url = "https://www.flipkart.com/search?q=mobiles&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off"
     scraper = Scraper(url)
-    out = scraper.get_repeating_page_data(
+    out = scraper.get_repeating_date_from_page(
         target=Tag('div', cls='_1YokD2 _3Mn1Gg'),
         items=Tag('div', cls='_1AtVbE col-12-12'),
         title=Tag('div', cls='_4rR01T'),
@@ -346,7 +346,7 @@ if __name__ == '__main__':
     print("Single page data")
     url2 = "https://www.flipkart.com/apple-iphone-14-blue-128-gb/p/itmdb77f40da6b6d?pid=MOBGHWFHSV7GUFWA&lid=LSTMOBGHWFHSV7GUFWA3AV8J8"
     scraper2 = Scraper(url2)
-    out2 = scraper2.get_page_data(
+    out2 = scraper2.get_data_from_page(
         title=Tag('span', cls='B_NuCI'),
         price=Tag('div', cls='_30jeq3 _16Jk6d'),
         description=Tag('div', cls='_2o-xpa'),

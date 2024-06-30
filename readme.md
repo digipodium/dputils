@@ -49,14 +49,72 @@ Functions from dputils.files:
 
 ### Scrape Modules
 
-The Scraper class is a web scraping tool that uses the BeautifulSoup library to extract data from a specified URL. The
-class has several methods including init, validate_url, clean_url, soup, get, and get_all. The init method takes in a
-URL, a user agent, cookies, and a clean flag. The validate_url method checks if the URL is valid and the clean_url
-method removes any query parameters from the URL. The soup method makes a request to the URL and returns a BeautifulSoup
-object of the webpage. The get method takes in a list of Tag objects and returns a dictionary of the extracted data. The
-get_all method takes in a target tag, an items tag, and a list of tags and returns a list of dictionaries of the
-extracted data for each item. The class also has the ability to handle errors and provide information about the
-extraction process.
+#### Data extraction from a page
+
+Here's a basic tutorial to help you get started with the `scraper` module.
+
+1. **Import the required classes and functions:**
+
+```python
+from dputils.scraper import Scraper, Tag
+```
+
+2. **Initialize the `Scraper` class with the URL of the webpage you want to scrape:**
+
+```python
+url = "https://www.example.com"
+scraper = Scraper(url)
+```
+
+3. **Define the tags you want to scrape using the `Tag` class:**
+
+```python
+title_tag = Tag(name='h1', cls='title', output='text')
+price_tag = Tag(name='span', cls='price', output='text')
+```
+
+4. **Extract data from the page:**
+
+```python
+data = scraper.get_data_from_page(title=title_tag, price=price_tag)
+print(data)
+```
+
+#### Extracting list of items from a page
+For more advanced usage, such as extracting repeated data from lists of items on a page, you can use the following approach:
+
+1. **Initialize the `Scraper` class:**
+
+```python
+url = "https://www.example.com/products"
+scraper = Scraper(url)
+```
+
+2. **Define the tags for the target section and the items within that section:**
+For repeated data extraction, you need to define `Target` and `item` and pass it to `get_repeating_data_from_page()` method.
+   - *target* - defines the `Tag()` for area of the page containing the list of items.
+   - *items* - defines the `Tag()` for repeated items within the target section. Like a product-card in product grid/list.
+```python
+target_tag = Tag(name='div', cls='product-list')
+item_tag = Tag(name='div', cls='product-item')
+title_tag = Tag(name='h2', cls='product-title', output='text')
+price_tag = Tag(name='span', cls='product-price', output='text')
+link_tag = Tag(name='a', cls='product-link', output='href')
+```
+
+1. **Extract repeated data from the page:**
+
+```python
+products = scraper.get_repeating_data_from_page(
+    target=target_tag,
+    items=item_tag,
+    title=title_tag,
+    price=price_tag,
+    link=link_tag
+)
+for product in products:
+    print(product)
+```
 
 These functions can used on python versions 3.8 or greater.
 
