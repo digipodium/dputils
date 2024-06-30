@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dputils"
-version = "1.0.1"
+version = "1.0.2"
 description = "This library is utility library from digipodium"
 authors = ["Team Digipodium", "Zaid Kamil <xaidmetamorphos@gmail.com>", "AkulS1008 <akulsingh0708@gmail.com>"]
 maintainers = ["Zaid Kamil <xaidmetamorphos@gmail.com>"]
@@ -16,9 +16,9 @@ python = "^3.8"
 docx2txt = "^0.8"
 "pdfminer.six" = "^20220524"
 fpdf2 = "^2.5.4"
-bs4 = "^0.0.1"
-python-docx = "^0.8.11"
-httpx = {extras = ["http2"], version = "^0.25.1"}
+bs4 = "^0.0.2"
+python-docx = "^1.1.2"
+httpx = { extras = ["http2"], version = "^0.27.0" }
 
 
 [build-system]
