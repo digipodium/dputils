@@ -1,7 +1,19 @@
+
+
+<img alt="Python Version" src="https://img.shields.io/badge/python-3.8+-blue">
+<img alt="Contributions welcome" src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg">
+<img alt="License" src="https://img.shields.io/badge/license-MIT-green">
+<img alt="Build Status" src="https://img.shields.io/badge/build-passing-brightgreen.svg">
+
+<img alt="Documentation Status" src="https://img.shields.io/badge/documentation-up%20to%20date-brightgreen.svg">
+<img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/dputils">
+<img alt="Stars" src="https://img.shields.io/github/stars/digipodium/dputils?style=social">
+
+
 A python library which can be used to extraxct data from files, pdfs, doc(x) files, as well as save data into these
 files. This library can be used to scrape and extract webpage data from websites as well.
 
-### Installation Requirements and Instructions
+# Installation Requirements and Instructions
 
 Python versions 3.8 or above should be installed. After that open your terminal:
 For Windows users:
@@ -16,7 +28,7 @@ For Mac/Linux users:
 pip3 install dputils
 ```
 
-### Files Modules
+# Files Modules
 
 Functions from dputils.files:
 
@@ -47,7 +59,7 @@ Functions from dputils.files:
       ```
    - Returns True if file is successfully accessed and modified. Otherwise, False.
 
-### Scrape Modules
+# Scrape Modules
 
 #### Data extraction from a page
 
@@ -118,6 +130,22 @@ for product in products:
 
 These functions can used on python versions 3.8 or greater.
 
-References for more help: https://github.com/digipodium/dputils
+References for more help: https://digipodium.github.io/dputils/
+
+# Contribution
+if you want to contribute to this project and make it better, your help is very welcome.
+* Fork the project
+* Create your feature branch (`git checkout -b feature/fooBar`)
+* Commit your changes (`git commit -am 'Add some fooBar`')
+* Push to the branch (`git push origin feature/fooBar`)
+* Create a new Pull Request
+* Wait for your PR to be reviewed and merged
+* Star the project if you've found it useful
+* Share the project with your friends
+* Create an issue if you find a bug or want to request a new feature
+* Improve the project by refactoring the code
+* Review the PRs of other contributors
+* Suggest new features
+* Suggest new technologies to be used
 
 Thank you for using dputils!
