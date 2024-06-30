@@ -27,14 +27,3 @@ pytest = "^5.2"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-classifiers = [
-    "Topic :: Software Development :: Utility",
-    "Topic :: Software Development :: Libraries",
-    "Topic :: Software Development :: Libraries :: Application Frameworks",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
-]
-
-keywords = ["file-handling", "web-scraping", "utility", "dputils", "digipodium", "bot", "crawlers", "scraper", "digipod"]
