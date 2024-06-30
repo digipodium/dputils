@@ -23,9 +23,10 @@ For Mac/Linux users:
 pip3 install dputils
 ```
 
-# Files Modules
+# Files Module
 
 Functions from dputils.files:
+for now, the files module has two functions:
 
 1. get_data:
    - To import, use statement:
@@ -54,7 +55,7 @@ Functions from dputils.files:
       ```
    - Returns True if file is successfully accessed and modified. Otherwise, False.
 
-# Scrape Modules
+# Scrape Module
 
 #### Data extraction from a page
 
