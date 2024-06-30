@@ -1,8 +1,8 @@
 
 
-<img alt="Python Version" src="https://img.shields.io/badge/python-3.8+-blue"><img alt="Contributions welcome" src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg"><img alt="License" src="https://img.shields.io/badge/license-MIT-green"><img alt="Build Status" src="https://img.shields.io/badge/build-passing-brightgreen.svg">
+<img alt="Python Version" src="https://img.shields.io/badge/python-3.8+-blue"> <img alt="Contributions welcome" src="https://img.shields.io/badge/contributions-welcome-brightgreen.svg"> <img alt="License" src="https://img.shields.io/badge/license-MIT-green"> <img alt="Build Status" src="https://img.shields.io/badge/build-passing-brightgreen.svg">
 
-<img alt="Documentation Status" src="https://img.shields.io/badge/documentation-up%20to%20date-brightgreen.svg"><img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/dputils"><img alt="Stars" src="https://img.shields.io/github/stars/digipodium/dputils?style=social">
+<img alt="Documentation Status" src="https://img.shields.io/badge/documentation-up%20to%20date-brightgreen.svg"> <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/dputils"> <img alt="Stars" src="https://img.shields.io/github/stars/digipodium/dputils?style=social">
 
 
 A python library which can be used to extraxct data from files, pdfs, doc(x) files, as well as save data into these
