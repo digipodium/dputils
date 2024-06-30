@@ -150,7 +150,7 @@ def extract(dom_item, tags, data, errors):
 Here's a complete example of using the `scraper` module to extract data from a webpage:
 
 ```python
-from dputils.scraper import Scraper, Tag
+from dputils.scrape import Scraper, Tag
 
 url = "https://www.example.com"
 scraper = Scraper(url)
