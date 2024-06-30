@@ -17,5 +17,30 @@ For Mac/Linux users:
 pip3 install dputils
 ```
 
+## extract file data in few lines of code
+```python
+from dputils.files import get_data
+content = get_data(r"sample.docx")
+print(content)
+```
+
+## Scrape data in few lines of code
+```python
+from dputils.scrape import Scraper, Tag
+
+url = "https://www.flipkart.com/search?q=mobiles&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off"
+
+scraper = Scraper(url)
+out = scraper.get_repeating_date_from_page(
+    target=Tag('div', cls='DOjaWF gdgoEp'),
+    items=Tag('div', cls='_75nlfW'),
+    title=Tag('div', cls='KzDlHZ'),
+    price=Tag('div', cls='Nx9bqj _4b5DiR'),
+    link=Tag('a', cls='CGtC98', output='href'),
+)
+
+for item in out:
+    print(item)
+```
 Check out more on [library's page on pypi](https://pypi.org/project/dputils/)
 

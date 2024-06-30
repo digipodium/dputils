@@ -12,7 +12,7 @@ Here's a basic tutorial to help you get started with the `scraper` module.
 1. **Import the required classes and functions:**
 
 ```python
-from dputils.scraper import Scraper, Tag
+from dputils.scrape import Scraper, Tag
 ```
 
 2. **Initialize the `Scraper` class with the URL of the webpage you want to scrape:**

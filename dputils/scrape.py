@@ -27,13 +27,13 @@ _user_agents = {
 }
 
 def _get_random_user_agent():
-    print("Selecting a random User-Agent...")
+    # print("Selecting a random User-Agent...")
     browsers = list(_user_agents.keys())
     random_browser = random.choice(browsers)
-    print("Randomly picked browser:", random_browser)
+    # print("Randomly picked browser:", random_browser)
     operating_systems = list(_user_agents[random_browser].keys())
     random_os = random.choice(operating_systems)
-    print("Randomly picked operating system:", random_os)
+    # print("Randomly picked operating system:", random_os)
     return _user_agents[random_browser][random_os]
 
 
@@ -79,7 +79,7 @@ def extract(dom_item, tags, data, errors):
                 data[key] = dom_item.find(tag.name, tag.attrs).text
             except Exception as e:
                 if errors:
-                    print(f"Error for {tag=} -> {e}")
+                    print(f"Error | {tag=} -> {e}")
                 else:
                     data[key] = None
         elif tag.output == 'href':
@@ -87,7 +87,7 @@ def extract(dom_item, tags, data, errors):
                 data[key] = dom_item.find(tag.name, tag.attrs)['href']
             except Exception as e:
                 if errors:
-                    print(f"Error for {tag=} -> {e}")
+                    print(f"Error | {tag=} -> {e}")
                 else:
                     data[key] = None
 
@@ -96,7 +96,7 @@ def extract(dom_item, tags, data, errors):
                 data[key] = dom_item.find(tag.name, tag.attrs)['src']
             except Exception as e:
                 if errors:
-                    print(f"Error for {tag=} -> {e}")
+                    print(f"Error | {tag=} -> {e}")
                 else:
                     data[key] = None
         elif tag.output == 'object':
@@ -104,7 +104,7 @@ def extract(dom_item, tags, data, errors):
                 data[key] = dom_item.find(tag.name, tag.attrs)
             except Exception as e:
                 if errors:
-                    print(f"Error for {tag=} -> {e}")
+                    print(f"Error | {tag=} -> {e}")
                 else:
                     data[key] = None
         elif tag.output == 'title':
@@ -112,7 +112,7 @@ def extract(dom_item, tags, data, errors):
                 data[key] = dom_item.find(tag.name, tag.attrs)['title']
             except Exception as e:
                 if errors:
-                    print(f"Error for {tag=} -> {e}")
+                    print(f"Error | {tag=} -> {e}")
                 else:
                     data[key] = None
 
@@ -121,7 +121,7 @@ def extract(dom_item, tags, data, errors):
                 data[key] = dom_item.find(tag.name, tag.attrs)['alt']
             except Exception as e:
                 if errors:
-                    print(f"Error for {tag=} -> {e}")
+                    print(f"Error | {tag=} -> {e}")
                 else:
                     data[key] = None
         elif tag.output == 'value':
@@ -129,7 +129,7 @@ def extract(dom_item, tags, data, errors):
                 data[key] = dom_item.find(tag.name, tag.attrs)['value']
             except Exception as e:
                 if errors:
-                    print(f"Error for {tag=} -> {e}")
+                    print(f"Error | {tag=} -> {e}")
                 else:
                     data[key] = None
 
@@ -195,22 +195,22 @@ class Scraper:
         if cookies is None:
             cookies = {"session-id": "", "session-id-time": "", "session-token": ""}
         try:
-            print('🌐'*10)
-            print("User agent: ", headers)
-            print("Cookies: ", cookies)
-            print("url: ", self.url)
-            print('🌐'*10)
+            # print('🌐'*10)
+            # print("User agent: ", headers)
+            # print("Cookies: ", cookies)
+            # print("url: ", self.url)
+            # print('🌐'*10)
             with httpx.Client(headers=headers, cookies=cookies, timeout=5, http2=True) as client:
                 page = client.get(self.url)
             return BeautifulSoup(page.content, 'html.parser')
+        except httpx.TimeoutException as e:
+            print("Timeout error: ")
+            raise e
         except httpx.RequestError as e:
             print("Request error: ")
             raise e
         except httpx.HTTPError as e:
             print("HTTP error: ")
-            raise e
-        except httpx.TimeoutException as e:
-            print("Timeout error: ")
             raise e
         
 
@@ -275,8 +275,6 @@ class Scraper:
 
             if info:
                 print(f"Found {len(items)} items")
-            if info:
-                print("Extracting data...")
 
             for idx, element in enumerate(items):
                 data = {}
@@ -328,27 +326,28 @@ class Scraper:
 
 
 if __name__ == '__main__':
-    url = "https://www.flipkart.com/search?q=mobiles&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off"
-    scraper = Scraper(url)
-    out = scraper.get_repeating_date_from_page(
-        target=Tag('div', cls='_1YokD2 _3Mn1Gg'),
-        items=Tag('div', cls='_1AtVbE col-12-12'),
-        title=Tag('div', cls='_4rR01T'),
-        price=Tag('div', cls='_30jeq3 _1_WHN1'),
-        link=Tag('a', cls='_1fQZEK', output='href'),
-    )
     from pprint import pp
-
-    for item in out:
-        pp(item)
-        print()
 
     print("Single page data")
     url2 = "https://www.flipkart.com/apple-iphone-14-blue-128-gb/p/itmdb77f40da6b6d?pid=MOBGHWFHSV7GUFWA&lid=LSTMOBGHWFHSV7GUFWA3AV8J8"
     scraper2 = Scraper(url2)
     out2 = scraper2.get_data_from_page(
-        title=Tag('span', cls='B_NuCI'),
-        price=Tag('div', cls='_30jeq3 _16Jk6d'),
-        description=Tag('div', cls='_2o-xpa'),
+        title=Tag('h1',),
+        price=Tag('div', cls='Nx9bqj CxhGGd'),
+        description=Tag('div', cls='yN+eNk w9jEaj'),
     )
     pp(out2)
+    print("list/grid of content")
+    url = "https://www.flipkart.com/search?q=mobiles&otracker=search&otracker1=search&marketplace=FLIPKART&as-show=on&as=off"
+    scraper = Scraper(url)
+    out = scraper.get_repeating_date_from_page(
+        target=Tag('div', cls='DOjaWF gdgoEp'),
+        items=Tag('div', cls='_75nlfW'),
+        title=Tag('div', cls='KzDlHZ'),
+        price=Tag('div', cls='Nx9bqj _4b5DiR'),
+        link=Tag('a', cls='CGtC98', output='href'),
+    )
+
+    for item in out:
+        pp(item)
+        print()
