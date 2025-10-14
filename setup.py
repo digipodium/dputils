@@ -5,7 +5,7 @@ setup(
     version='1.0.1',
     description='This library is utility library from digipodium',
     author='Team Digipodium, Zaid Kamil, AkulS1008',
-    author_email='xaidmetamorphos@gmail.com',
+    author_email='info@digipodium.com',
     url='https://github.com/digipodium/dputils',
     packages=find_packages(),
     install_requires=[
