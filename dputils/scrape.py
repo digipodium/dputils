@@ -247,7 +247,7 @@ class Scraper:
         extract(self.soup, tags, data, errors)
         return data
 
-    def get_repeating_date_from_page(self, target: Tag = None, items: Tag = None, errors=False, info=False, **tags) -> list:
+    def get_repeating_data_from_page(self, target: Tag = None, items: Tag = None, errors=False, info=False, **tags) -> list:
         """
         Extracts data for multiple items based on given Tag objects and returns a list of dictionaries.
 
