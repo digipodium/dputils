@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='dputils',
-    version='1.0.1',
+    version='1.0.4',
     description='This library is utility library from digipodium',
     author='Team Digipodium, Zaid Kamil, AkulS1008',
     author_email='info@digipodium.com',

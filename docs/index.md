@@ -7,7 +7,7 @@
 <img alt="Documentation Status" src="https://img.shields.io/badge/documentation-up%20to%20date-brightgreen.svg"> <img alt="PyPI - Downloads" src="https://img.shields.io/pypi/dm/dputils"> <img alt="Stars" src="https://img.shields.io/github/stars/digipodium/dputils?style=social">
 
 # documentation for dputils
-
+s
 dputils is a python library which can be used to extraxct data from files, pdfs, doc(x) files, as well as save data into these files. 
 
 This library can be used to scrape and extract webpage data from websites as well.
